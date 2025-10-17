@@ -33,4 +33,3 @@ for (i in seq_along(seurat_list)) {
 }
 print('done')
 
-# continue with integration -> BPCells + sketch + CCa in 2_integration_sketch_CCA.R

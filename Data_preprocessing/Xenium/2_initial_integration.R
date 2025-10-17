@@ -59,17 +59,17 @@ merged.object <- FindVariableFeatures(merged.object, nfeatures = 4099)
 merged.object <- ScaleData(merged.object)
 merged.object <- RunPCA(merged.object)
 
-# test RPCA and CCA
+
+### Test RPCA and CCA integration with different algorithms and resolutions
 merged.object <- IntegrateLayers(merged.object, method = CCAIntegration, 
                                  orig = "pca", new.reduction = "integrated.cca", dims = 1:20, k.anchor = 20, verbose = F)
 merged.object <- IntegrateLayers(merged.object, method = RPCAIntegration, 
                                  orig = "pca", new.reduction = "integrated.rpca", dims = 1:20, k.anchor = 20, verbose = F)
 
-# test different resolutions and algorithms to choose best
 reses    <- c(1.5, 2.0, 2.5, 3.0)
 algos    <- c(louvain_refined = 2, leiden = 4)
 
-### RPCA branch
+## RPCA branch
 # 1) neighbors on integrated.rpca
 merged.object <- FindNeighbors(merged.object, 
                                reduction = "integrated.rpca", 
@@ -105,8 +105,7 @@ merged.object <- RunUMAP(
   verbose = FALSE)
 
 
-### CCA branch
-
+## CCA branch
 # 1) neighbors on integrated.cca
 merged.object <- FindNeighbors(merged.object, 
                                reduction = "integrated.cca", 
@@ -142,7 +141,7 @@ merged.object <- RunUMAP(
   verbose = FALSE)
 
 
-## Projection
+## Projection to all data
 merged.object <- ProjectIntegration(object = merged.object,
                                     sketched.assay = "sketch",
                                     assay = "RNA",
@@ -173,4 +172,3 @@ merged.object <- FindClusters(merged.object,
                               cluster.name = "cca_recalc_leiden_4.0") 
 saveRDS(merged.object, '/proj/sens2022005/Xenium/PREDIX_HER2/result/integration/sketch_sep25/full_data_integrated_clustered.rds')
 
-# Continue with module score for cluster identification in 3_clustering.R

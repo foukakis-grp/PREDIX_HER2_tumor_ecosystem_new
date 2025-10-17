@@ -53,7 +53,7 @@ plots <- lapply(plots, function(p) {
 wrap_plots(plots)
 saveRDS(merged.object, '/proj/sens2022005/Xenium/PREDIX_HER2/result/integration/sketch_sep25/full_data_integrated_clustered_labeled.rds')
 
-### Now move on to isolate individual cell types and identify mixed clusters to filter
+### Now move on to isolate individual cell types and identify mixed clusters
 ### Example of workflow with one cell type:
 
 ## Mesenchymal
@@ -64,7 +64,7 @@ DimPlot(mesench, reduction = "umap.cca.full", label = TRUE, pt.size = 0.5, group
 VlnPlot(mesench, features = 'nCount_Xenium', group.by = 'cca_recalc_leiden_4.0') + NoLegend()
 
 
-# heatmap to see the values for module scores in each cell type
+# Heatmap to see the values for module scores in each cell type
 score_cols <- c("Adipocytes1", "B_cells1", "Endothelial1", "Epithelial1", "Mesenchymal1", "Mast1", "Myeloid1", "Plasma1", "T_cells1")
 avg_scores_mesench <- mesench@meta.data %>%
   dplyr::select(cca_recalc_leiden_4.0, all_of(score_cols)) %>%
@@ -90,7 +90,7 @@ ggplot(avg_scores_long, aes(x = celltype,
                             y = cca_recalc_leiden_4.0, 
                             fill = score)) +
   geom_tile() +
-  geom_text(aes(label = round(score, 2)), size = 6) +  # show scores, 2 decimals
+  geom_text(aes(label = round(score, 2)), size = 6) +  
   scale_fill_gradientn(colours = c("white", "red")) +
   labs(x = "Module score", y = "Cluster", fill = "Avg score") +
   theme_minimal(base_size = 16) +
@@ -98,7 +98,7 @@ ggplot(avg_scores_long, aes(x = celltype,
         panel.grid = element_blank())
 
 
-# expression of module scores
+# Expression of module scores
 features <- c("Adipocytes1", "B_cells1", "Endothelial1", "Epithelial1", "Mesenchymal1", "Mast1", "Myeloid1", "Plasma1", "T_cells1")  
 common_min <- 0
 common_max <- 0.5
@@ -116,7 +116,7 @@ plots <- lapply(plots, function(p) {
 wrap_plots(plots)
 
 
-# visualize expression of different markers
+# Visualize expression of different markers
 features <- c('MS4A1', 'CD79A', 'PECAM1', 'KDR', 'EPCAM', 'sct_ERBB2', 'KRT19', 'FAP', 'COL11A1', 'CD68', 'KIT', 'TENT5C', 'MZB1', 'PDGFRB', 'CD3E', 'TRAC')
 common_min <- 0
 common_max <- 1
@@ -134,7 +134,7 @@ plots <- lapply(plots, function(p) {
 wrap_plots(plots)
 
 
-# inspect location of each suspisious cluster
+# Inspect location of each suspicious cluster
 Idents(mesench) <- mesench$cca_recalc_leiden_4.0
 DimPlot(mesench, group.by = "cca_recalc_leiden_4.0", 
         cells.highlight = WhichCells(mesench, idents = "64"), 
@@ -144,3 +144,4 @@ DimPlot(mesench, group.by = "cca_recalc_leiden_4.0",
         cells.highlight = WhichCells(mesench, idents = "43"), 
         cols.highlight = "red", cols = "lightgrey") +
   ggtitle('cluster 43') + NoLegend()
+

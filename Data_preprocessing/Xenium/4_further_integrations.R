@@ -139,7 +139,6 @@ DimPlot(merged.object, reduction = "umap.harmony2", group.by = 'harmony2_4.0', l
 
 
 ### Third harmony run, fourth integration in total
-
 delete <- c('83', '56')
 Idents(merged.object) <- merged.object$harmony2_4.0
 merged.object <- subset(merged.object, idents = delete, invert = TRUE)
@@ -204,3 +203,4 @@ merged.object <- RenameIdents(merged.object, cluster_ids)
 DimPlot(merged.object, reduction = "umap.harmony3", group.by = 'harmony3_4.0', label = TRUE, pt.size = 0.5) + NoLegend()
 DimPlot(merged.object, reduction = "umap.harmony3", label = TRUE, pt.size = 0.5) + NoLegend()
 
+saveRDS(merged.object, '/proj/sens2022005/Xenium/PREDIX_HER2/result/cell_typing/data_harmony_labeled.rds')
